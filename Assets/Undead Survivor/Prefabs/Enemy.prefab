@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2468102847999032300}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2468102848518790421}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2468102847999032302
 SpriteRenderer:
@@ -113,6 +113,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2468102848518790510}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -120,7 +121,6 @@ Transform:
   m_Children:
   - {fileID: 2468102847999032301}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2468102848518790420
 SpriteRenderer:
@@ -182,7 +182,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2468102848518790510}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 22100000, guid: 050556270436d4f4288557291a1a99c0, type: 2}
   m_CullingMode: 0
@@ -212,6 +212,12 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -226,6 +232,25 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -247,10 +272,15 @@ MonoBehaviour:
   speed: 0
   health: 0
   maxHealth: 0
-  animCon:
-  - {fileID: 22100000, guid: 050556270436d4f4288557291a1a99c0, type: 2}
-  - {fileID: 22100000, guid: 12cfc8b2360c2fc4499d4f6f6607671a, type: 2}
+  textures:
+  - {fileID: 2800000, guid: 025a57bc4394e6e49a490b5ad75f344e, type: 3}
+  - {fileID: 2800000, guid: 1425ccbd9a990f545bac5fc9f866fe83, type: 3}
+  - {fileID: 2800000, guid: 379e028e541cf49498c6dcefef5eee9f, type: 3}
+  - {fileID: 2800000, guid: 6b9bd82d68aad2d4bb359c589e80bf28, type: 3}
+  - {fileID: 2800000, guid: 119f0e5eb87e7a043a6478f9665704ca, type: 3}
+  - {fileID: 2800000, guid: 87aa4199863731946ace60db21a5645a, type: 3}
   target: {fileID: 0}
+  isLive: 0
 --- !u!114 &2468102848518790511
 MonoBehaviour:
   m_ObjectHideFlags: 0
