@@ -11,10 +11,11 @@ public class Player : MonoBehaviour
     public Scanner scanner;
     public Hand[] hands;
     public RuntimeAnimatorController[] animCon;
-
     Rigidbody2D rigid;
     SpriteRenderer spriter;
     Animator anim;
+    Material materialInstance;
+    bool isHit;
 
     void Awake()
     {
@@ -23,6 +24,9 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         scanner = GetComponent<Scanner>();
         hands = GetComponentsInChildren<Hand>(true);
+
+        // 머티리얼 인스턴스 생성
+        materialInstance = spriter.material;
     }
 
     private void OnEnable()
@@ -31,43 +35,22 @@ public class Player : MonoBehaviour
         anim.runtimeAnimatorController = animCon[GameManager.instance.playerId];
     }
 
-    /*    void Update()
-        {
-            //GetAxis를 GetAxisRaw로 변경
-            inputVec.x = Input.GetAxisRaw("Horizontal");
-            inputVec.y = Input.GetAxisRaw("Vertical");
-        }*/
-
-    //물리 연산 프레임마다 호출되는 생명주기 함수
     private void FixedUpdate()
     {
-
         if (!GameManager.instance.isLive)
             return;
-        //1. 힘을 준다.
-        //rigid.AddForce(inputVec);
-
-        //2. 속도 제어
-        //rigid.velocity = inputVec;
-
-        //3. 위치 이동
         Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime;
-
-        //rlgid바디의 위치에서 더해줘야한다.
-        rigid.MovePosition(rigid.position+ nextVec);
-
+        rigid.MovePosition(rigid.position + nextVec);
     }
 
     void OnMove(InputValue value)
     {
         inputVec = value.Get<Vector2>();
-
     }
+
     private void LateUpdate()
     {
-        //순수한 크기 값 Speed 애니메이터 변수에 넣어주기
-        anim.SetFloat("Speed",inputVec.magnitude);
-
+        anim.SetFloat("Speed", inputVec.magnitude);
         if (inputVec.x != 0)
         {
             spriter.flipX = inputVec.x < 0;
@@ -78,19 +61,43 @@ public class Player : MonoBehaviour
     {
         if (!GameManager.instance.isLive)
             return;
+
+        if (!isHit)
+        {
+            isHit = true;
+            StartCoroutine(HitEffect());
+        }
+
         GameManager.instance.health -= Time.deltaTime * 10;
 
-        if (GameManager.instance.health<0)
+        if (GameManager.instance.health < 0)
         {
-            for(int index = 2; index < transform.childCount; index++)
+            for (int index = 2; index < transform.childCount; index++)
             {
                 transform.GetChild(index).gameObject.SetActive(false);
             }
-
             anim.SetTrigger("Dead");
             GameManager.instance.GameOver();
         }
-
     }
 
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        isHit = false;
+    }
+
+    IEnumerator HitEffect()
+    {
+        // 히트 효과 설정
+        materialInstance.SetFloat("_HitEffectBlend", 1f);
+        materialInstance.SetColor("_HitEffectColor", Color.red);
+        materialInstance.SetFloat("_HitEffectGlow", 5f);
+
+        // 0.2초 대기
+        yield return new WaitForSeconds(0.2f);
+
+        // 효과 제거
+        materialInstance.SetFloat("_HitEffectBlend", 0f);
+        materialInstance.SetFloat("_HitEffectGlow", 0f);
+    }
 }
