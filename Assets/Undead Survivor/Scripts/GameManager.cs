@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
     public static GameManager instance;
+
     [Header("# Game Control")]
     public bool isLive;
     public float gameTime;
@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     public LevelUp uiLevelUp;
     public Result uiResult;
     public GameObject enemyCleaner;
+
+    public GameObject pauseMenu; // 일시정지 메뉴 UI 오브젝트
 
     void Awake()
     {
@@ -105,7 +107,29 @@ public class GameManager : MonoBehaviour
             gameTime = maxGameTime;
             GameVictory();
         }
+
+        // ESC 키 입력 감지
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (pauseMenu.activeSelf)
+                ResumeGame();
+            else
+                PauseGame();
+        }
     }
+
+    public void PauseGame()
+    {
+        pauseMenu.SetActive(true);
+        Stop();
+    }
+
+    public void ResumeGame()
+    {
+        pauseMenu.SetActive(false);
+        Resume();
+    }
+
 
     public void GetExp()
     {
@@ -130,6 +154,12 @@ public class GameManager : MonoBehaviour
     {
         isLive = true;
         Time.timeScale = 1;
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1; // 시간 스케일 초기화
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
 }
